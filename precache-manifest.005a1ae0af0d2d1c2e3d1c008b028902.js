@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/starbattle/static/media/logo.5d5d9eef.svg"
   },
   {
-    "revision": "46c0bad3735d8c48e273227c63c504bc",
+    "revision": "89ac06c191a395d14d9eec30ec1f38a9",
     "url": "/starbattle/index.html"
   }
 ];
