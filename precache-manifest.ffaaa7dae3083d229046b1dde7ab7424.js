@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "2b3db572a74118186641",
+    "revision": "6b1cbdc3f3326b15bcc4",
     "url": "/starbattle/static/css/main.51caa50d.chunk.css"
   },
   {
-    "revision": "2b3db572a74118186641",
-    "url": "/starbattle/static/js/main.2b3db572.chunk.js"
+    "revision": "6b1cbdc3f3326b15bcc4",
+    "url": "/starbattle/static/js/main.6b1cbdc3.chunk.js"
   },
   {
     "revision": "18111ee5999764fae319",
@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/starbattle/static/js/runtime~main.38031c14.js"
   },
   {
-    "revision": "6e27337316a2565ac7cb49423f04e309",
+    "revision": "bb69d62426fef07a1dffaf76f0762260",
     "url": "/starbattle/index.html"
   }
 ];
