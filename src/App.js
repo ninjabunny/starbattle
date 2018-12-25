@@ -35,7 +35,7 @@ const cellState = {
 class App extends Component {
   constructor(props) {
     super(props)
-    const LEVEL = 9
+    const LEVEL = 5
     const tracker = [
       ...Array(LEVEL)
         .fill(1)
@@ -50,7 +50,49 @@ class App extends Component {
   }
 
   toggleModal = () => this.setState({ modalOpen: !this.state.modalOpen })
+  checker = () => {
+    const { tracker, grid, level } = this.state
+    // check if there are >= LEVEL starred
 
+    let stars = 0
+    tracker.forEach(
+      row =>
+        row.forEach(col => {
+          if (col === 'starred') {
+            stars++
+          }
+        }),
+      0,
+    )
+    // console.log(stars)
+    // check each row
+    const rowCheck = !tracker
+      .map(row => row.filter(col => col === 'starred'))
+      .map(row => row.length === 1)
+      .includes(false)
+
+    // check each column
+    const colCheck = !tracker
+      .map((row, i) => row.map((col, j) => tracker[j][i] === 'starred'))
+      .map(row => row.filter(col => col))
+      .map(row => row.length === 1)
+      .includes(false)
+
+    // check each area
+    let areaCheck = Array(level).fill(0)
+    grid.forEach((row, z) => {
+      grid.forEach((row, i) =>
+        row.forEach((col, j) => {
+          if (grid[i][j] === z && tracker[i][j] === 'starred') {
+            areaCheck[z] = areaCheck[z] + 1
+          }
+        }),
+      )
+    })
+    areaCheck = areaCheck.filter(area => area === 1).length === level
+    console.log(rowCheck && colCheck && areaCheck)
+    // check proximity
+  }
   updateTracker = (i, j) => () => {
     const { tracker } = this.state
     const newTracker = [...tracker]
@@ -64,8 +106,17 @@ class App extends Component {
     if (current === 'starred') {
       newTracker[i][j] = 'blank'
     }
-    this.setState({ tracker: newTracker })
+    this.setState({ tracker: newTracker }, this.checker)
   }
+
+  resetTracker = () =>
+    this.setState({
+      tracker: [
+        ...Array(this.state.level)
+          .fill(1)
+          .map(item => Array(this.state.level).fill('blank')),
+      ],
+    })
 
   render() {
     const { grid, level, tracker } = this.state
@@ -120,7 +171,7 @@ class App extends Component {
           <BottomNavigationAction
             label='Reset'
             icon={<RefreshIcon />}
-            onClick={() => {}}
+            onClick={this.resetTracker}
           />
         </BottomNavigation>
         <Modal
