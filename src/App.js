@@ -35,7 +35,7 @@ const cellState = {
 class App extends Component {
   constructor(props) {
     super(props)
-    const LEVEL = 5
+    const LEVEL = 7
     const tracker = [
       ...Array(LEVEL)
         .fill(1)
@@ -90,8 +90,48 @@ class App extends Component {
       )
     })
     areaCheck = areaCheck.filter(area => area === 1).length === level
-    console.log(rowCheck && colCheck && areaCheck)
+
     // check proximity
+    const checkProximity = tracker => {
+      // get all cords of stars
+      const stars = []
+      tracker.forEach((row, i) =>
+        row.forEach((col, j) => {
+          if (col === 'starred') {
+            stars.push([i, j])
+          }
+        }),
+      )
+
+      // check if they are in prox of each other
+      let isProx = true
+      stars.forEach(pos => {
+        // get all prox for pos
+        const prox = []
+        prox.push([pos[0] - 1, pos[1]])
+        prox.push([pos[0] - 1, pos[1] - 1])
+        prox.push([pos[0], pos[1] - 1])
+        prox.push([pos[0] + 1, pos[1] - 1])
+        prox.push([pos[0] + 1, pos[1]])
+        prox.push([pos[0] + 1, pos[1] + 1])
+        prox.push([pos[0], pos[1] + 1])
+        prox.push([pos[0] - 1, pos[1] + 1])
+        console.log('stars', stars, 'prox', prox)
+
+        prox.forEach(pos => {
+          return stars.forEach(star => {
+            if (JSON.stringify(pos) === JSON.stringify(star)) {
+              isProx = false
+            }
+          })
+        })
+      })
+      return isProx
+    }
+    console.log(rowCheck && colCheck && areaCheck && checkProximity(tracker))
+    if (rowCheck && colCheck && areaCheck && checkProximity(tracker)) {
+      alert('you win!')
+    }
   }
   updateTracker = (i, j) => () => {
     const { tracker } = this.state
@@ -106,7 +146,8 @@ class App extends Component {
     if (current === 'starred') {
       newTracker[i][j] = 'blank'
     }
-    this.setState({ tracker: newTracker }, this.checker)
+    this.setState({ tracker: newTracker })
+    this.checker()
   }
 
   resetTracker = () =>
