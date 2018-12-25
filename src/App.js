@@ -7,6 +7,8 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import Modal from '@material-ui/core/Modal'
 import InfoIcon from '@material-ui/icons/Info'
+import StarsIcon from '@material-ui/icons/Stars'
+import ClearIcon from '@material-ui/icons/Clear'
 import getGrid from './gridUtils'
 import './App.css'
 
@@ -25,11 +27,22 @@ const colors = [
   '#f5b7b1',
 ]
 
+const cellState = {
+  blank: '',
+  marked: <ClearIcon style={{ height: '80%', width: '80%', opacity: '0.3' }} />,
+  starred: <StarsIcon style={{ height: '80%', width: '80%' }} />,
+}
 class App extends Component {
   constructor(props) {
     super(props)
     const LEVEL = 9
+    const tracker = [
+      ...Array(LEVEL)
+        .fill(1)
+        .map(item => Array(LEVEL).fill('blank')),
+    ]
     this.state = {
+      tracker,
       level: LEVEL,
       modalOpen: false,
       grid: getGrid(LEVEL),
@@ -38,9 +51,24 @@ class App extends Component {
 
   toggleModal = () => this.setState({ modalOpen: !this.state.modalOpen })
 
+  updateTracker = (i, j) => () => {
+    const { tracker } = this.state
+    const newTracker = [...tracker]
+    const current = tracker[i][j]
+    if (current === 'blank') {
+      newTracker[i][j] = 'marked'
+    }
+    if (current === 'marked') {
+      newTracker[i][j] = 'starred'
+    }
+    if (current === 'starred') {
+      newTracker[i][j] = 'blank'
+    }
+    this.setState({ tracker: newTracker })
+  }
+
   render() {
-    const { grid } = this.state
-    console.log('grid', grid)
+    const { grid, level, tracker } = this.state
     return (
       <div className='App'>
         <AppBar className='appBar' position='static'>
@@ -55,7 +83,7 @@ class App extends Component {
             display: 'block',
             display: 'flex',
             flexWrap: 'wrap',
-            padding: '15px',
+            padding: '20px 5px 5px 0',
             justifyContent: 'center',
           }}
         >
@@ -63,12 +91,18 @@ class App extends Component {
             row.map((col, j) => (
               <div
                 style={{
-                  background: colors[grid[i][j]],
-                  width: `${85 / this.state.level}vw`,
-                  height: `${85 / this.state.level}vw`,
+                  background: colors[col],
+                  width: `${90 / level}vw`,
+                  height: `${90 / level}vw`,
                   margin: '1px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
-              />
+                onClick={this.updateTracker(i, j)}
+              >
+                {cellState[tracker[i][j]]}
+              </div>
             )),
           )}
         </div>
