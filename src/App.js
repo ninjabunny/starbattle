@@ -7,6 +7,7 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import Modal from '@material-ui/core/Modal'
 import InfoIcon from '@material-ui/icons/Info'
+import LayersIcon from '@material-ui/icons/Layers'
 import StarsIcon from '@material-ui/icons/Stars'
 import ClearIcon from '@material-ui/icons/Clear'
 import getGrid from './gridUtils'
@@ -35,7 +36,7 @@ const cellState = {
 class App extends Component {
   constructor(props) {
     super(props)
-    const LEVEL = 7
+    const LEVEL = 10
     const tracker = [
       ...Array(LEVEL)
         .fill(1)
@@ -205,8 +206,8 @@ class App extends Component {
             onClick={this.toggleModal}
           />
           <BottomNavigationAction
-            label='Points'
-            icon={<InfoIcon />}
+            label='Level 1'
+            icon={<LayersIcon />}
             onClick={() => {}}
           />{' '}
           <BottomNavigationAction
