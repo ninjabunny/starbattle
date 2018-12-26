@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/starbattle/precache-manifest.5328a591cfeb535b3da7255544b25eaa.js"
+  "/starbattle/precache-manifest.4c7c6d0cd9d2c1a1892f9ccdf05f1db7.js"
 );
 
 workbox.clientsClaim();
