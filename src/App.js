@@ -6,6 +6,7 @@ import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import Modal from '@material-ui/core/Modal'
+import Button from '@material-ui/core/Button'
 import InfoIcon from '@material-ui/icons/Info'
 import LayersIcon from '@material-ui/icons/Layers'
 import StarsIcon from '@material-ui/icons/Stars'
@@ -158,9 +159,9 @@ class App extends Component {
   resetTracker = () =>
     this.setState({
       tracker: [
-        ...Array(this.state.level)
+        ...Array(this.state.grid.length)
           .fill(1)
-          .map(item => Array(this.state.level).fill('blank')),
+          .map(item => Array(this.state.grid.length).fill('blank')),
       ],
     })
   nextLevel = () => {
@@ -231,7 +232,7 @@ class App extends Component {
             label={`Level ${this.state.level}`}
             icon={<LayersIcon />}
             onClick={() => {}}
-          />{' '}
+          />
           <BottomNavigationAction
             label='Reset'
             icon={<RefreshIcon />}
@@ -244,7 +245,16 @@ class App extends Component {
           open={this.state.modalOpen}
           onClose={this.toggleModal}
         >
-          <div className='modal'>hi this is modal </div>
+          <div className='modal'>
+            hi this is modal. click on button to reset, this refresh page
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={() => localStorage.setItem('myLevel', 1)}
+            >
+              reset level
+            </Button>
+          </div>
         </Modal>
         <Modal
           aria-labelledby='simple-modal-title'
