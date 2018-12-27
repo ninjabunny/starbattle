@@ -14,6 +14,7 @@ import getGrid from './gridUtils'
 import './App.css'
 
 const colors = [
+  'lightgrey',
   '#f9e79f',
   '#a9dfbf',
   '#a3e4d7',
@@ -22,7 +23,7 @@ const colors = [
   '#e6b0aa',
   '#edbb99',
   '#fad7a0',
-  '#a2d9ce',
+  // '#a2d9ce',
   '#aed6f1',
   '#d2b4de',
   '#f5b7b1',
@@ -36,17 +37,19 @@ const cellState = {
 class App extends Component {
   constructor(props) {
     super(props)
-    const LEVEL = 10
+    const LEVEL = 1
+    const grid = getGrid(LEVEL)
     const tracker = [
-      ...Array(LEVEL)
+      ...Array(grid.length)
         .fill(1)
-        .map(item => Array(LEVEL).fill('blank')),
+        .map(item => Array(grid.length).fill('blank')),
     ]
     this.state = {
       tracker,
       level: LEVEL,
       modalOpen: false,
-      grid: getGrid(LEVEL),
+      grid,
+      winner: false,
     }
   }
 
@@ -131,7 +134,9 @@ class App extends Component {
     }
     console.log(rowCheck && colCheck && areaCheck && checkProximity(tracker))
     if (rowCheck && colCheck && areaCheck && checkProximity(tracker)) {
-      alert('you win!')
+      this.setState({ winner: true })
+    } else {
+      this.setState({ winner: false })
     }
   }
   updateTracker = (i, j) => () => {
@@ -159,9 +164,23 @@ class App extends Component {
           .map(item => Array(this.state.level).fill('blank')),
       ],
     })
-
+  nextLevel = () => {
+    const grid = getGrid(this.state.level + 1)
+    const level = this.state.level + 1
+    this.setState({
+      level,
+      tracker: [
+        ...Array(grid.length)
+          .fill(1)
+          .map(item => Array(grid.length).fill('blank')),
+      ],
+      grid,
+      winner: false,
+    })
+  }
   render() {
     const { grid, level, tracker } = this.state
+    console.log(this.state)
     return (
       <div className='App'>
         <AppBar className='appBar' position='static'>
@@ -185,8 +204,8 @@ class App extends Component {
               <div
                 style={{
                   background: colors[col],
-                  width: `${90 / level}vw`,
-                  height: `${90 / level}vw`,
+                  width: `${90 / grid.length}vw`,
+                  height: `${90 / grid.length}vw`,
                   margin: '1px',
                   display: 'flex',
                   justifyContent: 'center',
@@ -206,7 +225,7 @@ class App extends Component {
             onClick={this.toggleModal}
           />
           <BottomNavigationAction
-            label='Level 1'
+            label={`Level ${this.state.level}`}
             icon={<LayersIcon />}
             onClick={() => {}}
           />{' '}
@@ -223,6 +242,14 @@ class App extends Component {
           onClose={this.toggleModal}
         >
           <div className='modal'>hi this is modal </div>
+        </Modal>
+        <Modal
+          aria-labelledby='simple-modal-title'
+          aria-describedby='simple-modal-description'
+          open={this.state.winner}
+          onClose={this.nextLevel}
+        >
+          <div className='modal'>you are winner </div>
         </Modal>
       </div>
     )
