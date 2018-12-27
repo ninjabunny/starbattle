@@ -37,7 +37,7 @@ const cellState = {
 class App extends Component {
   constructor(props) {
     super(props)
-    const LEVEL = 1
+    const LEVEL = localStorage.getItem('myLevel') || 1
     const grid = getGrid(LEVEL)
     const tracker = [
       ...Array(grid.length)
@@ -83,7 +83,7 @@ class App extends Component {
       .includes(false)
 
     // check each area
-    let areaCheck = Array(level).fill(0)
+    let areaCheck = Array(grid.length).fill(0)
     grid.forEach((row, z) => {
       grid.forEach((row, i) =>
         row.forEach((col, j) => {
@@ -93,7 +93,7 @@ class App extends Component {
         }),
       )
     })
-    areaCheck = areaCheck.filter(area => area === 1).length === level
+    areaCheck = areaCheck.filter(area => area === 1).length === grid.length
 
     // check proximity
     const checkProximity = tracker => {
@@ -132,7 +132,7 @@ class App extends Component {
       })
       return isProx
     }
-    console.log(rowCheck && colCheck && areaCheck && checkProximity(tracker))
+    console.log(rowCheck, colCheck, areaCheck, checkProximity(tracker))
     if (rowCheck && colCheck && areaCheck && checkProximity(tracker)) {
       this.setState({ winner: true })
     } else {
@@ -152,8 +152,7 @@ class App extends Component {
     if (current === 'starred') {
       newTracker[i][j] = 'blank'
     }
-    this.setState({ tracker: newTracker })
-    this.checker()
+    this.setState({ tracker: newTracker }, this.checker())
   }
 
   resetTracker = () =>
@@ -165,18 +164,22 @@ class App extends Component {
       ],
     })
   nextLevel = () => {
-    const grid = getGrid(this.state.level + 1)
-    const level = this.state.level + 1
-    this.setState({
-      level,
-      tracker: [
-        ...Array(grid.length)
-          .fill(1)
-          .map(item => Array(grid.length).fill('blank')),
-      ],
-      grid,
-      winner: false,
-    })
+    const level = new Number(this.state.level) + 1
+    const grid = getGrid(level)
+    console.log(level)
+    this.setState(
+      {
+        level,
+        tracker: [
+          ...Array(grid.length)
+            .fill(1)
+            .map(item => Array(grid.length).fill('blank')),
+        ],
+        grid,
+        winner: false,
+      },
+      () => localStorage.setItem('myLevel', level),
+    )
   }
   render() {
     const { grid, level, tracker } = this.state
