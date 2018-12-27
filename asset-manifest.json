@@ -1,13 +1,13 @@
 {
   "main.css": "/starbattle/static/css/main.2511e7ff.chunk.css",
-  "main.js": "/starbattle/static/js/main.dad3692f.chunk.js",
-  "main.js.map": "/starbattle/static/js/main.dad3692f.chunk.js.map",
+  "main.js": "/starbattle/static/js/main.d3587736.chunk.js",
+  "main.js.map": "/starbattle/static/js/main.d3587736.chunk.js.map",
   "static/js/1.735172d5.chunk.js": "/starbattle/static/js/1.735172d5.chunk.js",
   "static/js/1.735172d5.chunk.js.map": "/starbattle/static/js/1.735172d5.chunk.js.map",
   "runtime~main.js": "/starbattle/static/js/runtime~main.38031c14.js",
   "runtime~main.js.map": "/starbattle/static/js/runtime~main.38031c14.js.map",
   "static/css/main.2511e7ff.chunk.css.map": "/starbattle/static/css/main.2511e7ff.chunk.css.map",
   "index.html": "/starbattle/index.html",
-  "precache-manifest.c6a731ad18b0e4461783522b9ff838e1.js": "/starbattle/precache-manifest.c6a731ad18b0e4461783522b9ff838e1.js",
+  "precache-manifest.97d9462b80335b10848958b89fc3da24.js": "/starbattle/precache-manifest.97d9462b80335b10848958b89fc3da24.js",
   "service-worker.js": "/starbattle/service-worker.js"
 }
