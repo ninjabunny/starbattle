@@ -1,5 +1,6 @@
 const getGrid = level => {
-  const gridSize = ((level - 1) % 5) + 5
+  const binLength = 20
+  const gridSize = Math.floor(level / binLength) + 5
   const initStars = gridSize => {
     let grid = [Math.floor(Math.random() * gridSize)]
     while (grid.length < gridSize) {
@@ -42,10 +43,12 @@ const getGrid = level => {
 
     while (!isFilled(initGrid)) {
       // Biassedly pick region ID depending on level
+      // 20 = .5
+      const dificulty = ((level % binLength) + 1) / binLength / 2
       const regionId = Math.floor(
-        stars.length * Math.pow(Math.random(), level / 110 + 0.1),
+        stars.length * Math.pow(Math.random(), dificulty), // .5 is max
       )
-
+      console.log('diff', dificulty)
       //find current regions
       const regions = []
       initGrid.forEach((row, i) =>

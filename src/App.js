@@ -51,31 +51,26 @@ class App extends Component {
       modalOpen: false,
       grid,
       winner: false,
+      errors: [],
     }
   }
 
   toggleModal = () => this.setState({ modalOpen: !this.state.modalOpen })
   checker = () => {
-    const { tracker, grid, level } = this.state
+    const { tracker, grid } = this.state
     // check if there are >= LEVEL starred
-
-    let stars = 0
-    tracker.forEach(
-      row =>
-        row.forEach(col => {
-          if (col === 'starred') {
-            stars++
-          }
-        }),
-      0,
-    )
+    const errors = []
     // console.log(stars)
     // check each row
-    const rowCheck = !tracker
+    const rowParse = tracker
       .map(row => row.filter(col => col === 'starred'))
       .map(row => row.length === 1)
-      .includes(false)
-
+    // rowParse.forEach(row => {
+    //   if(!row) {
+    //     // errors = [...errors, ...Array(grid.length).]
+    //   }
+    // })
+    const rowCheck = !rowParse.includes(false)
     // check each column
     const colCheck = !tracker
       .map((row, i) => row.map((col, j) => tracker[j][i] === 'starred'))
@@ -121,7 +116,6 @@ class App extends Component {
         prox.push([pos[0] + 1, pos[1] + 1])
         prox.push([pos[0], pos[1] + 1])
         prox.push([pos[0] - 1, pos[1] + 1])
-        console.log('stars', stars, 'prox', prox)
 
         prox.forEach(pos => {
           return stars.forEach(star => {
@@ -133,7 +127,7 @@ class App extends Component {
       })
       return isProx
     }
-    console.log(rowCheck, colCheck, areaCheck, checkProximity(tracker))
+    // console.log(rowCheck, colCheck, areaCheck, checkProximity(tracker))
     if (rowCheck && colCheck && areaCheck && checkProximity(tracker)) {
       this.setState({ winner: true })
     } else {
@@ -167,7 +161,6 @@ class App extends Component {
   nextLevel = () => {
     const level = new Number(this.state.level) + 1
     const grid = getGrid(level)
-    console.log(level)
     this.setState(
       {
         level,
@@ -184,7 +177,6 @@ class App extends Component {
   }
   render() {
     const { grid, level, tracker } = this.state
-    console.log(this.state)
     return (
       <div className='App'>
         <AppBar className='appBar' position='static'>
@@ -229,7 +221,7 @@ class App extends Component {
             onClick={this.toggleModal}
           />
           <BottomNavigationAction
-            label={`Level ${this.state.level}`}
+            label={`Level ${this.state.level} of 100`}
             icon={<LayersIcon />}
             onClick={() => {}}
           />
@@ -262,7 +254,16 @@ class App extends Component {
           open={this.state.winner}
           onClose={this.nextLevel}
         >
-          <div className='modal'>you are winner </div>
+          <div className='modal'>
+            you are winner{' '}
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={this.nextLevel}
+            >
+              Next Level
+            </Button>
+          </div>
         </Modal>
       </div>
     )
