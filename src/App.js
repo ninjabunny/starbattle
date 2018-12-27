@@ -238,13 +238,18 @@ class App extends Component {
           onClose={this.toggleModal}
         >
           <div className='modal'>
-            hi this is modal. click on button to reset, this refresh page
+            <p>
+              Rules: Each row, column, and colored area must only contain one
+              star. Also, stars are not allowed to be adjacent to each other,
+              even diagonally. Click once to use X to mark where stars cannot
+              be. Then Click on the X to mark a star.
+            </p>
             <Button
               variant='contained'
               color='primary'
               onClick={() => localStorage.setItem('myLevel', 1)}
             >
-              reset level
+              Reset to level 1
             </Button>
           </div>
         </Modal>
@@ -255,7 +260,7 @@ class App extends Component {
           onClose={this.nextLevel}
         >
           <div className='modal'>
-            you are winner{' '}
+            <p>Youve solved the level!</p>
             <Button
               variant='contained'
               color='primary'
